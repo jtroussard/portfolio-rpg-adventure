@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { fetchLinkedInProfile } from '../api/dataService';
+import React from 'react';
+import Player from './Player';
+import useMovement from '../hooks/useMovement';
+import useInteraction from '../hooks/useInteraction';
 
-const LinkedInProfile = () => {
-  const [profile, setProfile] = useState(null);
+const GameBoard = () => {
+  const position = useMovement();
+  const interactCallback = useInteraction();
 
-  useEffect(() => {
-    const loadProfile = async () => {
-      const data = await fetchLinkedInProfile();
-      setProfile(data);
-    };
-
-    loadProfile();
-  }, []);
+  const boardStyle = {
+    width: '800px',
+    height: '600px',
+    backgroundColor: '#111',
+    position: 'relative',
+    margin: '50px auto',
+    border: '4px solid white',
+  };
 
   return (
-    <div>
-      <h2>LinkedIn Profile</h2>
-      {profile ? <pre>{JSON.stringify(profile, null, 2)}</pre> : <p>Loading...</p>}
+    <div style={boardStyle}>
+      <Player position={position} />
     </div>
   );
 };
 
-export default LinkedInProfile;
+export default GameBoard;
